@@ -5,10 +5,17 @@ import { redirect } from "next/navigation";
 type AccountInfoType = {
   email: string;
   password: string;
+  name: string;
+};
+
+type LoginType = {
+  email: string;
+  password: string;
 };
 export async function requestCreateAccount({
   email,
   password,
+  name,
 }: AccountInfoType) {
   //   const response = await fetch("/api/auth/create-account", {
   //     method: "POST",
@@ -20,12 +27,27 @@ export async function requestCreateAccount({
   //       password,
   //     }),
   //   });
-  //   if (!response.ok) {
-  //     throw new Error(response.statusText);
-  //   }
 
+  //if something went wrong, throw an error
   //assume we send request to server
   await new Promise((resolve) => setTimeout(resolve, 1000));
 
-  redirect("/verify-email");
+  if (false) {
+    return { error: "Something went wrong!" };
+  }
+
+  return redirect("/verify-email");
+}
+
+export async function requestLogin({ email, password }: LoginType) {
+  //assume we send request to server
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
+  //if something went wrong, throw an error
+  //assume we send request to server
+  if (false) {
+    return { error: "Something went wrong!" };
+  }
+
+  return redirect("/");
 }

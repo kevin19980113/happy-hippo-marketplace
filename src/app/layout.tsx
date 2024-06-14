@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { Toaster } from "sonner";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import Navbar from "@/components/Navbar";
@@ -25,6 +26,8 @@ export default function RootLayout({
           <Navbar />
           <div className="flex-grow flex-1">{children}</div>
         </main>
+
+        <Toaster position="top-center" richColors />
       </body>
     </html>
   );
