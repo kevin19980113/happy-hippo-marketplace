@@ -1,12 +1,20 @@
+"use client";
+
 import Link from "next/link";
 import MaxWidthWrapper from "./MaxWidthWrapper";
 import { Icons } from "./Icons";
 import NavItems from "./NavItems";
 import { buttonVariants } from "./ui/button";
 import Cart from "./Cart";
+import {
+  LoginLink,
+  LogoutLink,
+  RegisterLink,
+} from "@kinde-oss/kinde-auth-nextjs/components";
+import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 
 export default function Navbar() {
-  const user = null;
+  const { isAuthenticated } = useKindeBrowserClient();
 
   return (
     <div className="bg-white sticky z-50 top-0 inset-x-0 h-16">
@@ -28,41 +36,51 @@ export default function Navbar() {
 
               <div className="ml-auto flex items-center">
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-                  {user ? null : (
-                    <Link
-                      href="/sign-in"
+                  {isAuthenticated ? null : (
+                    <LoginLink
                       className={buttonVariants({
                         variant: "ghost",
                       })}
                     >
                       Sign in
-                    </Link>
+                    </LoginLink>
                   )}
 
-                  {user ? null : (
+                  {isAuthenticated ? null : (
                     <span className="h-6 w-px bg-gray-200" aria-hidden="true" />
                   )}
 
-                  {user ? (
+                  {isAuthenticated ? (
                     <p></p>
                   ) : (
-                    <Link
-                      href="/sign-up"
+                    <RegisterLink
                       className={buttonVariants({
                         variant: "ghost",
                       })}
                     >
                       Create account
-                    </Link>
+                    </RegisterLink>
                   )}
 
-                  {user ? null : (
+                  {isAuthenticated ? null : (
                     <div className="flex lg:ml-6">
                       <span
                         className="h-6 w-px bg-gray-200"
                         aria-hidden="true"
                       />
                     </div>
+                  )}
+
+                  {!isAuthenticated ? (
+                    <p></p>
+                  ) : (
+                    <LogoutLink
+                      className={buttonVariants({
+                        variant: "ghost",
+                      })}
+                    >
+                      Log out
+                    </LogoutLink>
                   )}
 
                   <div className="ml-4 flow-root lg:ml-6">
