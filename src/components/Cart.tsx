@@ -12,9 +12,26 @@ import { formatPrice } from "@/lib/utils";
 import Link from "next/link";
 import { buttonVariants } from "./ui/button";
 import Image from "next/image";
+import { useCart } from "@/hooks/use-cart";
+import { ScrollArea } from "@radix-ui/react-scroll-area";
+import CartItem from "./CartItem";
+import { useEffect, useState } from "react";
 
 export default function Cart() {
-  const itemCount = 0;
+  const { items } = useCart();
+  const itemCount = items.length;
+
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  const cartTotalPrice = items.reduce(
+    (total, { product }) => total + product.price,
+    0
+  );
+
   const fee = 1;
 
   return (
@@ -25,7 +42,7 @@ export default function Cart() {
           className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
         />
         <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
-          0
+          {isMounted ? itemCount : 0}
         </span>
       </SheetTrigger>
 
@@ -34,11 +51,17 @@ export default function Cart() {
           <SheetTitle>{`Cart (${itemCount})`}</SheetTitle>
         </SheetHeader>
 
-        {itemCount > 0 ? (
+        {isMounted && itemCount > 0 ? (
           <>
             <div className="flex w-full flex-col pr-6">
-              {/* TODO :Cart Logic*/}
-              cart items...
+              <ScrollArea>
+                {items.map(({ product }) => (
+                  <CartItem
+                    key={`${product.title}-${product.id}`}
+                    product={product}
+                  />
+                ))}
+              </ScrollArea>
             </div>
 
             <div className="space-y-4 pr-6">
@@ -54,7 +77,9 @@ export default function Cart() {
                 </div>
                 <div className="flex">
                   <span className="flex-1">Total</span>
-                  <span>{formatPrice({ price: fee, options: {} })}</span>
+                  <span>
+                    {formatPrice({ price: cartTotalPrice + fee, options: {} })}
+                  </span>
                 </div>
               </div>
 
