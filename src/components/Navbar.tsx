@@ -8,13 +8,34 @@ import { buttonVariants } from "./ui/button";
 import Cart from "./Cart";
 import {
   LoginLink,
-  LogoutLink,
   RegisterLink,
 } from "@kinde-oss/kinde-auth-nextjs/components";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
+import { Suspense, useEffect } from "react";
+import { toast } from "sonner";
+import UserAccountNav from "./UserAccountNav";
 
 export default function Navbar() {
-  const { isAuthenticated } = useKindeBrowserClient();
+  const { user, isLoading } = useKindeBrowserClient();
+
+  useEffect(() => {
+    if (
+      sessionStorage.getItem("loggingOut") === "true" &&
+      !user &&
+      !isLoading
+    ) {
+      console.log("logging out");
+      toast.success("you have successfully logged out");
+      sessionStorage.removeItem("loggingOut");
+    }
+    if (user && !sessionStorage.getItem("isLoggedIn")) {
+      toast.success(`Welcome back ${user.email} !!`);
+      sessionStorage.setItem("isLoggedIn", "true");
+    }
+    if (!user && !isLoading) {
+      sessionStorage.removeItem("isLoggedIn");
+    }
+  }, [user, isLoading]);
 
   return (
     <div className="bg-white sticky z-50 top-0 inset-x-0 h-16">
@@ -35,58 +56,53 @@ export default function Navbar() {
               </div>
 
               <div className="ml-auto flex items-center">
-                <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-                  {isAuthenticated ? null : (
-                    <LoginLink
-                      className={buttonVariants({
-                        variant: "ghost",
-                      })}
-                    >
-                      Sign in
-                    </LoginLink>
-                  )}
+                {!isLoading && (
+                  <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
+                    {user ? null : (
+                      <LoginLink
+                        className={buttonVariants({
+                          variant: "ghost",
+                        })}
+                      >
+                        Sign in
+                      </LoginLink>
+                    )}
 
-                  {isAuthenticated ? null : (
-                    <span className="h-6 w-px bg-gray-200" aria-hidden="true" />
-                  )}
-
-                  {isAuthenticated ? (
-                    <p></p>
-                  ) : (
-                    <RegisterLink
-                      className={buttonVariants({
-                        variant: "ghost",
-                      })}
-                    >
-                      Create account
-                    </RegisterLink>
-                  )}
-
-                  {isAuthenticated ? null : (
-                    <div className="flex lg:ml-6">
+                    {user ? null : (
                       <span
                         className="h-6 w-px bg-gray-200"
                         aria-hidden="true"
                       />
+                    )}
+
+                    {user ? (
+                      <p></p>
+                    ) : (
+                      <RegisterLink
+                        className={buttonVariants({
+                          variant: "ghost",
+                        })}
+                      >
+                        Create account
+                      </RegisterLink>
+                    )}
+
+                    {user ? null : (
+                      <div className="flex lg:ml-6">
+                        <span
+                          className="h-6 w-px bg-gray-200"
+                          aria-hidden="true"
+                        />
+                      </div>
+                    )}
+
+                    {!user ? null : <UserAccountNav user={user} />}
+
+                    <div className="ml-4 flow-root lg:ml-6">
+                      <Cart />
                     </div>
-                  )}
-
-                  {!isAuthenticated ? (
-                    <p></p>
-                  ) : (
-                    <LogoutLink
-                      className={buttonVariants({
-                        variant: "ghost",
-                      })}
-                    >
-                      Log out
-                    </LogoutLink>
-                  )}
-
-                  <div className="ml-4 flow-root lg:ml-6">
-                    <Cart />
                   </div>
-                </div>
+                )}
               </div>
             </div>
           </div>
