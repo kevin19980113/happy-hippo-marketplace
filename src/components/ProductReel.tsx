@@ -6,7 +6,7 @@ type ProductReelProps = {
   title: string;
   subTitle?: string;
   href?: string;
-  query: { sort: string; limit: number; category: string };
+  query: { sort: string; limit: number; category?: string };
 };
 
 export type Product = {
