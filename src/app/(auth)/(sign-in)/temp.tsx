@@ -16,7 +16,7 @@ import { toast } from "sonner";
 import { LoginLink } from "@kinde-oss/kinde-auth-nextjs/components";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { useRef } from "react";
-import { reDirectToHome } from "@/app/action/action";
+import { reDirectToHome } from "@/lib/action";
 
 export default function SignInPage() {
   const {

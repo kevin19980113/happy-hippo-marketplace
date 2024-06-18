@@ -3,9 +3,16 @@ import { Product } from "./ProductReel";
 import { X } from "lucide-react";
 import { useCart } from "@/hooks/use-cart";
 import { formatPrice } from "@/lib/utils";
+import { Button } from "./ui/button";
 
-export default function CartItem({ product }: { product: Product }) {
-  const { removeItem } = useCart();
+export default function CartItem({
+  product,
+  quantity,
+}: {
+  product: Product;
+  quantity: number;
+}) {
+  const { removeItem, addItem, decreaseItem } = useCart();
   const { title, image, price, category, id } = product;
   return (
     <div className="space-y-3 py-2">
@@ -42,10 +49,32 @@ export default function CartItem({ product }: { product: Product }) {
           </div>
         </div>
 
-        <div className="flex flex-col space-y-1 font-medium">
-          <span className="ml-auto line-clamp-1 text-sm">
+        <div className="flex flex-col space-y-1 font-medium items-center justify-center">
+          <span className="line-clamp-1 text-sm">
             {formatPrice({ price: price, options: {} })}
           </span>
+
+          <div className="flex items-center gap-1 flex-shrink-0">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-muted-foreground"
+              onClick={() => addItem(product)}
+            >
+              +
+            </Button>
+            <div className="size-9 p-1 flex items-center justify-center rounded-xl bg-slate-100">
+              {quantity}
+            </div>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-muted-foreground"
+              onClick={() => decreaseItem(product.id)}
+            >
+              -
+            </Button>
+          </div>
         </div>
       </div>
     </div>

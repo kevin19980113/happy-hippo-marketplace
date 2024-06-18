@@ -9,12 +9,14 @@ import { createJSONStorage, persist } from "zustand/middleware";
 
 export type CartItem = {
   product: Product;
+  quantity: number;
 };
 
 type CartState = {
   items: CartItem[];
   addItem: (product: Product) => void;
   removeItem: (productId: number) => void;
+  decreaseItem: (productId: number) => void;
   clearCart: () => void;
 };
 
@@ -24,12 +26,42 @@ export const useCart = create<CartState>()(
       items: [],
       addItem: (product) =>
         set((state) => {
-          return { items: [...state.items, { product }] };
+          const item = state.items.find(
+            (item) => item.product.id === product.id
+          );
+          if (item) {
+            return {
+              items: state.items.map((item) =>
+                item.product.id === product.id
+                  ? { ...item, quantity: item.quantity + 1 }
+                  : item
+              ),
+            };
+          }
+          return {
+            items: [...state.items, { product, quantity: 1 }],
+          };
         }),
       removeItem: (id) =>
         set((state) => ({
           items: state.items.filter((item) => item.product.id !== id),
         })),
+      decreaseItem: (id) =>
+        set((state) => {
+          const item = state.items.find((item) => item.product.id === id);
+          if (item && item.quantity > 1) {
+            return {
+              items: state.items.map((item) =>
+                item.product.id === id
+                  ? { ...item, quantity: item.quantity - 1 }
+                  : item
+              ),
+            };
+          }
+          return {
+            items: state.items.filter((item) => item.product.id !== id),
+          };
+        }),
       clearCart: () => set({ items: [] }),
     }),
     {

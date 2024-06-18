@@ -19,7 +19,7 @@ import { useEffect, useState } from "react";
 
 export default function Cart() {
   const { items } = useCart();
-  const itemCount = items.length;
+  const itemCount = items.reduce((total, { quantity }) => total + quantity, 0);
 
   const [isMounted, setIsMounted] = useState(false);
 
@@ -55,10 +55,11 @@ export default function Cart() {
           <>
             <div className="flex w-full flex-col pr-6">
               <ScrollArea>
-                {items.map(({ product }) => (
+                {items.map(({ product, quantity }) => (
                   <CartItem
                     key={`${product.title}-${product.id}`}
                     product={product}
+                    quantity={quantity}
                   />
                 ))}
               </ScrollArea>

@@ -1,4 +1,4 @@
-import { fetchingProductsData } from "@/app/action/action";
+import { fetchingProductsData } from "@/lib/action";
 import Link from "next/link";
 import ProductListing from "./ProductListing";
 

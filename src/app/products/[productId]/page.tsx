@@ -1,4 +1,4 @@
-import { fetchingProductDataById } from "@/app/action/action";
+import { fetchingProductDataById } from "@/lib/action";
 import AddToCartButton from "@/components/AddToCartButton";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import ProductReel, { Product } from "@/components/ProductReel";

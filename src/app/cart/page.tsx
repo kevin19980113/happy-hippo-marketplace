@@ -8,17 +8,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
-import { LoginLink, useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
+import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { toast } from "sonner";
 
 export default function CartPage() {
-  const { items, removeItem } = useCart();
+  const { items, removeItem, addItem, decreaseItem } = useCart();
   const [isMounted, setIsMounted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { isAuthenticated } = useKindeBrowserClient();
 
   const cartTotalPrice = items.reduce(
-    (total, { product }) => total + product.price,
+    (total, { product, quantity }) => total + product.price * quantity,
     0
   );
 
@@ -30,7 +30,7 @@ export default function CartPage() {
 
   const handleCheckout = async () => {
     if (!isAuthenticated) {
-      toast.error("Please login to checkout");
+      toast.error("Please Sign in to checkout");
       return;
     }
     setIsLoading(true);
@@ -50,17 +50,21 @@ export default function CartPage() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ items }),
+          body: JSON.stringify({ items, sessionId: null }),
         }
       );
       //create checkout session and get session id
 
       const { sessionId } = await checkoutResponse.json();
+
+      sessionStorage.setItem("checkout_session_id", sessionId);
+
       const stripeError = await stripe.redirectToCheckout({ sessionId });
       //redirect to checkout page using checkout session id
 
       if (stripeError) {
         console.log(stripeError.error);
+        return;
       }
     } catch (error) {
       console.log(error);
@@ -112,7 +116,7 @@ export default function CartPage() {
               })}
             >
               {isMounted &&
-                items.map(({ product }) => {
+                items.map(({ product, quantity }) => {
                   return (
                     <li
                       key={`${product.title}-${product.id}`}
@@ -165,6 +169,30 @@ export default function CartPage() {
                                 variant="ghost"
                               >
                                 <X className="h-5 w-5" aria-hidden="true" />
+                              </Button>
+                            </div>
+
+                            <div className="absolute right-0 bottom-0 flex items-center gap-1 flex-shrink-0">
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="text-muted-foreground"
+                                onClick={() => addItem(product)}
+                                disabled={isLoading}
+                              >
+                                +
+                              </Button>
+                              <div className="size-9 p-1 flex items-center justify-center rounded-xl bg-slate-100">
+                                {quantity}
+                              </div>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="text-muted-foreground"
+                                onClick={() => decreaseItem(product.id)}
+                                disabled={isLoading}
+                              >
+                                -
                               </Button>
                             </div>
                           </div>

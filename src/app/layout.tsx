@@ -4,7 +4,6 @@ import { Toaster } from "sonner";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import Navbar from "@/components/Navbar";
-
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -24,6 +23,7 @@ export default function RootLayout({
       >
         <main className="relative flex flex-col min-h-screen">
           <Navbar />
+
           <div className="flex-grow flex-1">{children}</div>
         </main>
 
