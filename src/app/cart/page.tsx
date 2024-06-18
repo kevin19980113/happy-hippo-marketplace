@@ -7,10 +7,15 @@ import { Check, Loader2, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { loadStripe } from "@stripe/stripe-js";
+import { LoginLink, useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
+import { toast } from "sonner";
 
 export default function CartPage() {
   const { items, removeItem } = useCart();
   const [isMounted, setIsMounted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const { isAuthenticated } = useKindeBrowserClient();
 
   const cartTotalPrice = items.reduce(
     (total, { product }) => total + product.price,
@@ -22,6 +27,46 @@ export default function CartPage() {
   useEffect(() => {
     setIsMounted(true);
   }, []);
+
+  const handleCheckout = async () => {
+    if (!isAuthenticated) {
+      toast.error("Please login to checkout");
+      return;
+    }
+    setIsLoading(true);
+    try {
+      const stripe = await loadStripe(
+        process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string
+      );
+      //it should be in a client-side function
+      //initialize Stripe(preconnect)
+
+      if (!stripe) throw new Error("Stripe failed to initialize.");
+
+      const checkoutResponse = await fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/checkout_sessions`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ items }),
+        }
+      );
+      //create checkout session and get session id
+
+      const { sessionId } = await checkoutResponse.json();
+      const stripeError = await stripe.redirectToCheckout({ sessionId });
+      //redirect to checkout page using checkout session id
+
+      if (stripeError) {
+        console.log(stripeError.error);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    setIsLoading(false);
+  };
 
   return (
     <div className="bg-white">
@@ -180,8 +225,13 @@ export default function CartPage() {
             </div>
 
             <div className="mt-6">
-              <Button className="w-full" size="lg">
-                Checkout
+              <Button
+                className="w-full flex gap-6 items-center"
+                size="lg"
+                onClick={handleCheckout}
+                disabled={isLoading}
+              >
+                {isLoading ? <Loader2 className="animate-spin" /> : "Checkout"}
               </Button>
             </div>
           </section>

@@ -14,7 +14,7 @@ type FormatPrice = {
 };
 
 export function formatPrice({ price, options }: FormatPrice) {
-  const { currency = "USD", notation = "compact" } = options;
+  const { currency = "CAD", notation = "compact" } = options;
 
   const numericPrice = typeof price === "string" ? parseFloat(price) : price;
 
