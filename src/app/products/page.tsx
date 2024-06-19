@@ -1,12 +1,23 @@
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import ProductReel from "@/components/ProductReel";
 
-const ProductsPage = () => {
+type ProductsPageProps = {
+  searchParams: {
+    category?: string;
+  };
+};
+
+const ProductsPage = ({ searchParams }: ProductsPageProps) => {
   return (
     <MaxWidthWrapper>
       <ProductReel
-        title="Browse high-quality assets"
+        title={
+          searchParams.category
+            ? `${searchParams.category} Items`
+            : "Browse Trending Items"
+        }
         query={{
+          category: searchParams.category,
           limit: 40,
           sort: "desc",
         }}

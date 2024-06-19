@@ -117,7 +117,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
       </div>
 
       <ProductReel
-        href="/products"
+        href={`/products?category=${product.category}`}
         query={{ limit: 6, category: product.category, sort: "desc" }}
         title={`Similar ${product.category}`}
         subTitle={`Browse similar high-quality ${product.category} just like ${product.title}`}

@@ -13,9 +13,9 @@ import Link from "next/link";
 import { buttonVariants } from "./ui/button";
 import Image from "next/image";
 import { useCart } from "@/hooks/use-cart";
-import { ScrollArea } from "@radix-ui/react-scroll-area";
 import CartItem from "./CartItem";
 import { useEffect, useState } from "react";
+import { ScrollArea } from "./ui/scroll-area";
 
 export default function Cart() {
   const { items } = useCart();
@@ -46,7 +46,7 @@ export default function Cart() {
         </span>
       </SheetTrigger>
 
-      <SheetContent className="flex flex-col w-full pr-0 sm:max-w-lg">
+      <SheetContent className="flex flex-col w-full pr-0 sm:max-w-lg overflow-y-scroll">
         <SheetHeader className="space-y-2.5 pr-6">
           <SheetTitle>{`Cart (${itemCount})`}</SheetTitle>
         </SheetHeader>
@@ -54,15 +54,13 @@ export default function Cart() {
         {isMounted && itemCount > 0 ? (
           <>
             <div className="flex w-full flex-col pr-6">
-              <ScrollArea>
-                {items.map(({ product, quantity }) => (
-                  <CartItem
-                    key={`${product.title}-${product.id}`}
-                    product={product}
-                    quantity={quantity}
-                  />
-                ))}
-              </ScrollArea>
+              {items.map(({ product, quantity }) => (
+                <CartItem
+                  key={`${product.title}-${product.id}`}
+                  product={product}
+                  quantity={quantity}
+                />
+              ))}
             </div>
 
             <div className="space-y-4 pr-6">
