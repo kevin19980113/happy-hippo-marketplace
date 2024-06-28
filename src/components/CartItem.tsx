@@ -16,7 +16,7 @@ export default function CartItem({
   const { title, image, price, category, id } = product;
   return (
     <div className="space-y-3 py-2">
-      <div className="flex items-start justify-between gap-4">
+      <div className="flex items-start justify-between gap-2">
         <div className="flex items-center space-x-4">
           <div className="relative aspect-square h-16 w-16 min-w-fit overflow-hidden rounded-lg">
             <div className="relative flex h-full items-center justify-center bg-white">
@@ -50,26 +50,24 @@ export default function CartItem({
         </div>
 
         <div className="flex flex-col space-y-1 font-medium items-center justify-center">
-          <span className="line-clamp-1 text-sm">
+          <span className="line-clamp-1 text-xs md:text-sm">
             {formatPrice({ price: price, options: {} })}
           </span>
 
           <div className="flex items-center gap-1 flex-shrink-0">
             <Button
               variant="ghost"
-              size="sm"
-              className="text-muted-foreground"
+              className="text-muted-foreground size-2 md:size-4"
               onClick={() => addItem(product)}
             >
               +
             </Button>
-            <div className="size-9 p-1 flex items-center justify-center rounded-xl bg-slate-100">
+            <div className="size-6 text-sm p-2 flex items-center justify-center rounded-xl bg-slate-100">
               {quantity}
             </div>
             <Button
               variant="ghost"
-              size="sm"
-              className="text-muted-foreground"
+              className="text-muted-foreground size-2 md:size-4"
               onClick={() => decreaseItem(product.id)}
             >
               -

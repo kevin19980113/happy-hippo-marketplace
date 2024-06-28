@@ -3,7 +3,6 @@
 import Link from "next/link";
 import MaxWidthWrapper from "./MaxWidthWrapper";
 import { Icons } from "./Icons";
-import NavItems from "./NavItems";
 import { buttonVariants } from "./ui/button";
 import Cart from "./Cart";
 import {
@@ -15,6 +14,7 @@ import { Suspense, useEffect } from "react";
 import { toast } from "sonner";
 import UserAccountNav from "./UserAccountNav";
 import MobileNav from "./MobileNav";
+import { cn } from "@/lib/utils";
 
 export default function Navbar() {
   const { user, isLoading } = useKindeBrowserClient();
@@ -46,20 +46,32 @@ export default function Navbar() {
             <div className="flex h-16 items-center justify-between">
               <MobileNav />
 
-              <div className="ml-4 flex lg:ml-0">
+              <div className="ml-4 hidden md:flex lg:ml-0">
                 <Link href="/">
                   <Icons.logo className="h-10 w-10" />
                 </Link>
               </div>
 
-              <div className="hidden z-50 lg:ml-8 lg:block lg:self-stretch">
-                <NavItems />
+              <div className="gap-x-4 items-center ml-4 hidden md:flex">
+                <Link
+                  className={cn(buttonVariants({ variant: "ghost" }))}
+                  href="/"
+                >
+                  Home
+                </Link>
+
+                <Link
+                  className={cn(buttonVariants({ variant: "ghost" }))}
+                  href="/products"
+                >
+                  Products
+                </Link>
               </div>
 
               <div className="ml-auto flex items-center">
                 {!isLoading && (
                   <>
-                    <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
+                    <div className="hidden md:flex md:flex-1 md:items-center md:justify-end md:space-x-6">
                       {user ? null : (
                         <LoginLink
                           className={buttonVariants({

@@ -153,48 +153,23 @@ export default function CartPage() {
                               </p>
                             </div>
 
-                            <p className="mt-1 text-sm font-medium text-gray-900">
+                            <p className="mt-1 text-xs md:text-sm font-medium text-gray-900">
                               {formatPrice({
                                 price: product.price,
                                 options: {},
                               })}
                             </p>
-                          </div>
 
-                          <div className="mt-4 sm:mt-0 sm:pr-9 w-20">
-                            <div className="absolute right-0 top-0">
-                              <Button
-                                aria-label="remove product"
-                                onClick={() => removeItem(product.id)}
-                                variant="ghost"
-                              >
-                                <X className="h-5 w-5" aria-hidden="true" />
-                              </Button>
-                            </div>
+                            <p className="text-muted-foreground text-xs md:text-sm font-medium mt-1">
+                              {`quantity: ${quantity}`}
+                            </p>
 
-                            <div className="absolute right-0 bottom-0 flex items-center gap-1 flex-shrink-0">
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                className="text-muted-foreground"
-                                onClick={() => addItem(product)}
-                                disabled={isLoading}
-                              >
-                                +
-                              </Button>
-                              <div className="size-9 p-1 flex items-center justify-center rounded-xl bg-slate-100">
-                                {quantity}
-                              </div>
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                className="text-muted-foreground"
-                                onClick={() => decreaseItem(product.id)}
-                                disabled={isLoading}
-                              >
-                                -
-                              </Button>
-                            </div>
+                            <p className="text-sm md:text-base font-medium mt-3">
+                              {`Grand Total: ${formatPrice({
+                                price: product.price * quantity,
+                                options: {},
+                              })}`}
+                            </p>
                           </div>
 
                           <p className="mt-4 flex space-x-2 text-sm text-gray-700">

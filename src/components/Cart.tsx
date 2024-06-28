@@ -53,7 +53,7 @@ export default function Cart() {
 
         {isMounted && itemCount > 0 ? (
           <>
-            <div className="flex w-full flex-col pr-6">
+            <div className="flex w-full flex-col pr-2 md:pr-6">
               {items.map(({ product, quantity }) => (
                 <CartItem
                   key={`${product.title}-${product.id}`}
