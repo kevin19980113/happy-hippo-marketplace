@@ -16,8 +16,11 @@ import {
 import { buttonVariants } from "./ui/button";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 
 const MobileNav = () => {
+  const { user } = useKindeBrowserClient();
+
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -55,24 +58,40 @@ const MobileNav = () => {
 
         <hr className="w-full h-1" />
 
-        <SheetTrigger asChild>
-          <LoginLink
-            className={buttonVariants({
-              className: "w-full",
-            })}
-          >
-            Sign in
-          </LoginLink>
-        </SheetTrigger>
-        <SheetTrigger asChild>
-          <RegisterLink
-            className={buttonVariants({
-              className: "w-full",
-            })}
-          >
-            Sign up
-          </RegisterLink>
-        </SheetTrigger>
+        {!user && (
+          <>
+            <SheetTrigger asChild>
+              <LoginLink
+                className={buttonVariants({
+                  className: "w-full",
+                })}
+              >
+                Sign in
+              </LoginLink>
+            </SheetTrigger>
+            <SheetTrigger asChild>
+              <RegisterLink
+                className={buttonVariants({
+                  className: "w-full",
+                })}
+              >
+                Sign up
+              </RegisterLink>
+            </SheetTrigger>
+          </>
+        )}
+
+        {user && (
+          <SheetTrigger asChild>
+            <RegisterLink
+              className={buttonVariants({
+                className: "w-full",
+              })}
+            >
+              Log out
+            </RegisterLink>
+          </SheetTrigger>
+        )}
       </SheetContent>
     </Sheet>
   );

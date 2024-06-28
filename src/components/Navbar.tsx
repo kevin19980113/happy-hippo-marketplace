@@ -96,6 +96,7 @@ export default function Navbar() {
                           className={buttonVariants({
                             variant: "ghost",
                           })}
+                          postLoginRedirectURL="/"
                         >
                           Create account
                         </RegisterLink>
