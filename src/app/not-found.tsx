@@ -7,12 +7,12 @@ import Link from "next/link";
 export default function NotFound() {
   return (
     <MaxWidthWrapper>
-      <div className="w-full flex flex-col items-center gap-y-8 py-28">
-        <Ban className="text-blue-600 size-56" />
-        <h2 className="text-blue-700 text-3xl md:text-6xl font-bold">
+      <div className="w-full flex flex-col items-center text-center gap-y-8 py-28">
+        <Ban className="text-blue-600 size-28 md:size-56" />
+        <h2 className="w-full text-blue-700 text-3xl md:text-6xl font-bold">
           404 Not Found
         </h2>
-        <p className="text-blue-500 text-lg md:text-2xl font-semibold">
+        <p className="w-full text-blue-500 text-lg md:text-2xl font-semibold">
           Could not find requested resource
         </p>
         <Link
