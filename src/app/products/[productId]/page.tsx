@@ -6,6 +6,7 @@ import { formatPrice } from "@/lib/utils";
 import { Check, Shield } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 
 type ProductPageProps = {
   params: {
@@ -21,7 +22,11 @@ const BREADCRUMBS = [
 export default async function ProductPage({ params }: ProductPageProps) {
   const { productId } = params;
 
-  const product: Product = await fetchingProductDataById(productId);
+  const { product, error } = await fetchingProductDataById(productId);
+
+  if (error) {
+    notFound();
+  }
 
   return (
     <MaxWidthWrapper className="bg-white">

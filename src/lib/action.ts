@@ -39,9 +39,13 @@ export const fetchingProductsData = async ({
 };
 
 export const fetchingProductDataById = async (id: string) => {
-  const response = await fetch(`https://fakestoreapi.com/products/${id}`);
-  const data = await response.json();
-  return data;
+  try {
+    const response = await fetch(`https://fakestoreapi.com/products/${id}`);
+    const product = await response.json();
+    return { product };
+  } catch (error) {
+    return { error: "Something went wrong!" };
+  }
 };
 
 export async function requestCreateAccount({
