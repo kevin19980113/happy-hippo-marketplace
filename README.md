@@ -1,36 +1,40 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Happy Hippo MarketPlace : Next.js E-commerce Project
 
-## Getting Started
+<a href="https://happy-hippo-marketplace.vercel.app" target="_blank">
+  <img src="/thumbnail.png" alt="AskPDF Preview">
+</a>
 
-First, run the development server:
+## Project Overview
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+This is a modern e-commerce application built with Next.js, React, and TypeScript. It features a responsive design using Tailwind CSS and incorporates state management with Zustand.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Server-side rendered pages for improved SEO and performance
+- Responsive design with Tailwind CSS
+- State management using Zustand
+- Form handling and validation with React Hook Form and Zod
+- Dynamic routing for product pages
+- Shopping cart functionality
+- Checkout process powered by Stripe
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Tech Stack
 
-## Learn More
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+- Zustand for state management
+- React Hook Form with Zod for form handling and validation
 
-To learn more about Next.js, take a look at the following resources:
+## Key Features Explained
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Product Listing**: Displays products with details and pricing
+- **Shopping Cart**: Allows users to add and remove items
+- **Checkout Process**: Guides users through the purchasing flow
+- **Authentication**: Secure user authentication and authorization using Kinde Auth, providing a seamless login experience and protected routes for user-specific actions.
+- **Responsive Design**: Implements a mobile-first approach using Tailwind CSS
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Live Link
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- <a href="https://happy-hippo-marketplace.vercel.app" target="_blank">Live Link</a>
